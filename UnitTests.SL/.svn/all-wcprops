@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/DAMIR/!svn/ver/957/BusinessObjects/Trunk/Source/UnitTests/UnitTests.SL
+END
+App.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/DAMIR/!svn/ver/957/BusinessObjects/Trunk/Source/UnitTests/UnitTests.SL/App.xaml
+END
+ClientHelper.cs
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/DAMIR/!svn/ver/957/BusinessObjects/Trunk/Source/UnitTests/UnitTests.SL/ClientHelper.cs
+END
+App.xaml.cs
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/DAMIR/!svn/ver/994/BusinessObjects/Trunk/Source/UnitTests/UnitTests.SL/App.xaml.cs
+END
+ServiceReferences.ClientConfig
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/DAMIR/!svn/ver/957/BusinessObjects/Trunk/Source/UnitTests/UnitTests.SL/ServiceReferences.ClientConfig
+END
+Tests.cs
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/DAMIR/!svn/ver/957/BusinessObjects/Trunk/Source/UnitTests/UnitTests.SL/Tests.cs
+END
+UnitTests.SL.csproj
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/DAMIR/!svn/ver/994/BusinessObjects/Trunk/Source/UnitTests/UnitTests.SL/UnitTests.SL.csproj
+END
