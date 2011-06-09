@@ -1,0 +1,87 @@
+﻿<#@ output extension=".cs" #>
+<#@ template language="C#" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Linq.Expressions" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ Import Namespace="ExpressionSerialization" #>
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Xml.Linq;
+
+namespace ExpressionSerialization
+{
+	//GenerateXmlFromExpressionCore
+	public partial class ExpressionSerializer
+    {
+        
+		public XElement GenerateXmlFromExpressionCore(Expression e)
+        {
+            if (e == null)
+                return null;
+            XElement replace = ApplyCustomConverters(e);
+            if (replace != null)
+                return replace;
+
+			string name = GetNameOfExpression(e);
+			object[] XElementValues = null;
+			dynamic value;
+			<#
+    foreach (Type expressionType in this.GetExpressionTypes())
+    {
+        PropertyInfo[] propertyInfos = expressionType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        string fullName = expressionType.ToGenericTypeFullNameString();
+#>			
+			if (e is <#=fullName #> )
+			{			
+				XElementValues = new object[<#= propertyInfos.Length #>];
+<#
+    for (int i = 0; i < propertyInfos.Length; i++)
+    {
+        PropertyInfo p = propertyInfos[i];
+#>
+				value = ((<#=fullName #>)e).<#=p.Name  #>;
+				XElementValues[<#= i #>] = GenerateXmlFromProperty(typeof(<#= p.PropertyType.ToGenericTypeFullNameString() #>), 
+					"<#= p.Name #>", value ?? string.Empty);
+<#
+    }
+#>
+			}
+
+<#
+    }
+#>
+			return new XElement(name, XElementValues);
+			//return new XElement(
+			//            GetNameOfExpression(e),
+			//            from prop in e.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
+			//            select GenerateXmlFromProperty(prop.PropertyType, prop.Name, prop.GetValue(e, null)));
+        }
+
+
+	}//end ExpressionSerializer class
+}
+
+<#+
+	
+    Assembly core = typeof(Expression).Assembly;
+    
+    public IEnumerable<Type> GetExpressionTypes()
+    {
+        IEnumerable<Type> expressionTypes = from et in core.GetTypes()
+                                            where et.IsSubclassOf(typeof(Expression))
+                                            && !et.IsGenericTypeDefinition
+                                            && et.IsPublic
+                                            select et;
+        return expressionTypes;
+    }
+    
+#>
