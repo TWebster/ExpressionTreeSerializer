@@ -36,7 +36,7 @@ namespace ExpressionSerialization
 
 
 		/// <summary>
-		/// Relying on the constructor only, to load all possible (including IEnumerable, Array) Types 
+		/// Relying on the constructor only, to load all possible (including IEnumerable, IQueryable, Nullable, Array) Types 
 		/// into memory, may not scale well.
 		/// </summary>
 		/// <param name="assemblies"></param>

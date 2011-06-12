@@ -17,7 +17,7 @@ using System.ServiceModel.Description;
 
 namespace ExpressionSerialization
 {
-	public class WebHttpClient<TChannel> : DynamicObject where TChannel : IQueryService
+	public class WebHttpClient<TChannel>  where TChannel : IQueryService
 	{
 		HashSet<Type> _knownTypes;
 		public IEnumerable<Type> knownTypes { get { return _knownTypes.AsEnumerable(); } }
