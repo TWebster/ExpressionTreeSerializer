@@ -46,8 +46,13 @@ namespace ExpressionSerialization
 		public dynamic CreateQuery(Type elementType)
 		{
 			dynamic ienumerable = this.fnGetObjects(elementType);
-			if (!typeof(IEnumerable<>).MakeGenericType(elementType).IsAssignableFrom(ienumerable.GetType()))
-				throw new InvalidOperationException(typeof(IEnumerable<>).MakeGenericType(elementType) + " should be assignable from return value of function.");
+			Type enumerableType = ienumerable.GetType();
+			if (!typeof(IEnumerable<>).MakeGenericType(elementType).IsAssignableFrom(enumerableType))
+			{				
+				ienumerable = Enumerable.ToArray(LinqHelper.CastToGenericEnumerable(ienumerable, elementType));				
+				//throw new InvalidOperationException(string.Format("Return value Type is {1}. Expected: {0}", typeof(IEnumerable<>).MakeGenericType(elementType), ienumerable.GetType()));
+			}
+			    
 
 			IQueryable queryable = Queryable.AsQueryable(ienumerable);
 			IQueryProvider provider = (IQueryProvider)queryable.Provider;

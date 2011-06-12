@@ -45,12 +45,17 @@ namespace ExpressionSerialization
 			
 			if (e.NodeType == ExpressionType.Call)
 			{
-				Type returnType;				
+				Type returnType, elementType;				
 				MethodCallExpression m = ((MethodCallExpression)e);
-				ConstantExpression cx = ((ConstantExpression)m.Arguments[0]);
-				Type elementType = ((IQueryable)cx.Value).ElementType;
-				if (typeof(IEnumerable<>).MakeGenericType(elementType).IsAssignableFrom(m.Method.ReturnType))
-					returnType = elementType.MakeArrayType(); //typeof(IEnumerable<>).MakeGenericType(elementType);
+				if (m.Arguments[0] is ConstantExpression)
+				{
+					ConstantExpression cx = ((ConstantExpression)m.Arguments[0]);
+					elementType = ((IQueryable)cx.Value).ElementType;
+					if (typeof(IEnumerable<>).MakeGenericType(elementType).IsAssignableFrom(m.Method.ReturnType))
+						returnType = elementType.MakeArrayType(); //typeof(IEnumerable<>).MakeGenericType(elementType);
+					else
+						throw new ArgumentException(string.Format("Expected for {0} of Type {1}\n Return Type of {2}", ((ConstantExpression)m.Arguments[0]), typeof(ConstantExpression), typeof(IEnumerable<>).MakeGenericType(elementType)));
+				}								
 				else
 					returnType = m.Method.ReturnType;
 
