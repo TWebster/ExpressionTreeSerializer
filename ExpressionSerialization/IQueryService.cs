@@ -11,7 +11,8 @@ using System.ServiceModel.Web;
 namespace ExpressionSerialization
 {
 	/// <summary>
-	/// WCF Web HTTP (REST) query. (suited for WebServiceHost).
+	/// WCF Web HTTP (REST) query service. 
+	/// Derive your ServiceContract from this.
 	/// </summary>
 	[ServiceContract]
     public interface IQueryService

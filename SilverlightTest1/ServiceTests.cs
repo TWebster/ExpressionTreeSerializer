@@ -54,7 +54,7 @@ namespace UnitTests
 			
 			ThreadPool.QueueUserWorkItem(state => 
 				{
-					IQueryable<Customer> queryable = from c in ((IQueryable<Customer>)query)
+					IQueryable<Customer> queryable = from c in new Query<Customer>()
 													 where c.ID <= 30
 													 && c.Country == "Spain"
 													 || c.ContactTitle == "Owner"
